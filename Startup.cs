@@ -16,6 +16,7 @@ using hello_web_app.Models;
 // using Microsoft.Data.Entity.Relational.Migrations; 
 // using Microsoft.Data.Entity.Relational.Migrations.Builders; 
 // using Microsoft.Data.Entity.Relational.Migrations.Infrastructure; 
+using hello_web_app.Infrastructure.Security;
 
 namespace hello_web_app
 {
@@ -72,7 +73,7 @@ namespace hello_web_app
             app.UseStaticFiles();
 
             // Add cookie-based authentication to the request pipeline.
-            app.UseIdentity();
+            // app.UseIdentity();
 
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
@@ -85,6 +86,10 @@ namespace hello_web_app
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
+
+            app.UseServices(services => services.AddTransient<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>());
+            //app.UseServices(services => services.AddTransient<UserManager<ApplicationUser>, ApplicationUserManager>());
+            app.UseServices(services => services.AddTransient<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>());
         }
     }
 }
